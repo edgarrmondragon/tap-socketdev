@@ -47,8 +47,9 @@ jobs:
   test:
     runs-on: ubuntu-24.04
     env:
-      NOXPYTHON: ${{ matrix.python-version }}
+      NOXFORCEPYTHON: ${{ matrix.python-version }}
       NOXSESSION: tests
+      PYO3_USE_ABI3_FORWARD_COMPATIBILITY: "1"
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -59,6 +60,7 @@ jobs:
         - "3.11"
         - "3.12"
         - "3.13"
+        - "3.14"
 
     steps:
     - name: Checkout code
@@ -107,8 +109,8 @@ jobs:
 
     - name: Set up Python
       uses: actions/setup-python@v5
+      id: setup-python
       with:
-        python-version: "3.x"
         cache: pip
         cache-dependency-path: poetry.lock
 
